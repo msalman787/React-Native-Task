@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "15302885473",
+    "project_id": "employee-registration-d98cb",
+    "storage_bucket": "employee-registration-d98cb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:15302885473:android:4019bc12ffedca3e912a20",
+        "android_client_info": {
+          "package_name": "com.employeetracking"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCnkCoQ-Fqw7eOQtgFahEq4KCxg0VM7JA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
