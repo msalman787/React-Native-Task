@@ -41,12 +41,13 @@ const options = {
 };
 
 const Home = ({navigation, route}: any) => {
-  PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
   const params = route?.params;
   const [currentPosition, setCurrentPosition]: any = useState(null);
 
   useEffect(() => {
-    permissionChecker();
+    {
+      !params?.location && permissionChecker();
+    }
     getLiveLocation();
   }, []);
 
@@ -55,7 +56,6 @@ const Home = ({navigation, route}: any) => {
     await new Promise(async resolve => {
       for (let i = 0; BackgroundService.isRunning(); i++) {
         await getLiveLocation();
-        await updateUserData();
         await sleep(delay);
       }
     });
@@ -75,6 +75,9 @@ const Home = ({navigation, route}: any) => {
 
     if (backgroundgranted === PermissionsAndroid.RESULTS.GRANTED) {
       startBackgroundService();
+      await BackgroundService.updateNotification({
+        taskDesc: 'Your Current Location shared to admin',
+      });
     }
   };
 
@@ -86,15 +89,13 @@ const Home = ({navigation, route}: any) => {
     const locPermissionDenied = await locationPermission();
 
     if (locPermissionDenied) {
-      const {longitude, latitude, heading}: any = await getCurrentLocation();
-      setCurrentPosition({latitude, longitude});
+      const {longitude, latitude}: any = await getCurrentLocation();
+      await setCurrentPosition({latitude, longitude});
+      if (await (currentPosition?.latitude)) 
+        return await updateUserData();
+      }
     }
   };
-  useEffect(() => {
-    if (currentPosition?.latitude) {
-      updateUserData();
-    }
-  }, [currentPosition]);
 
   const updateUserData = async () => {
     try {
